@@ -1,0 +1,46 @@
+<% layout('layouts/boilerplate')%>
+<form action="/campgrounds/<%=campground._id%>?_method=DELETE" method=POST>
+</form>
+
+<div class="row">
+    <div class="col-6 offset-3">
+      <div class="campground-card mb-3">
+        <img src="<%=campground.images[0].url%>" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><%=campground.title%></h5>
+          <p class="card-text"><%=campground.description%></p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><%=campground.location%></li>
+          <li class="list-group-item">$<%=campground.price%>/night</li>
+        </ul>
+        <div class="card-body">
+          <a href="/campgrounds/<%=campground._id%>/edit" class="card-link btn btn-info">Edit</a>
+          <form class="d-inline" action="/campgrounds/<%=campground._id%>?_method=DELETE" method=POST>
+            <button class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+      </div>
+      <h3 class="mb-3">Comments</h3>
+      <h5 class="mb-3">Add a Review</h5>
+      <form class="mb-3 needs-validation" action="/campgrounds/<%=campground._id%>/reviews" method="POST" novalidate>
+        <label class="form-label" for="review-rating">rating</label>
+        <input class="form-range" id="review-rating" name="review[rating]" type="range" min="1" max="5" value=5>
+        <textarea class="form-control mb-3" name="review[body]" rows="7" placeholder="Add a Review" required></textarea>
+        <button type="submit" class="btn btn-secondary">Submit</button>
+      </form>
+      <ul>
+        <% for(let review of campground.reviews) {%>
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title"><%=review.rating%></h5>
+            <p class="card-text"><%=review.body%></p>
+            <form action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=DELETE" method="POST">
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </div>
+        </div>
+        <% } %>
+      </ul>
+    </div>
+</div>

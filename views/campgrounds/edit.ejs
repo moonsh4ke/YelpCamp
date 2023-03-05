@@ -1,0 +1,35 @@
+<% layout('layouts/boilerplate')%>
+<div class="container row mt-3">
+  <div class="col-6 offset-3 border d-flex flex-column">
+  <h1 class="mb-3 text-center mb-5 mt-5">Edit Campground</h1>
+  <form class="d-flex flex-column needs-validation" id="form_editcamp" action="/campgrounds/<%=campground._id%>?_method=PUT" method="POST" novalidate>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="title" class="form-label">Campground Title*</label>
+        <input type="text" class="form-control" id="title" name="campground[title]" value="<%=campground.title%>" required>
+      </div>
+      <div class="col">
+        <label for="location" class="form-label">Location*</label>
+        <input type="text" class="form-control" id="location" name="campground[location]" value="<%=campground.location%>" required>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description*</label>
+      <textarea class="form-control" name="campground[description]" id="description" rows="4" required><%=campground.description%></textarea>
+    </div>
+    <div class="row mb-3">
+      <div class="col">
+        <label for="price" class="form-label">Price*</label>
+        <input type="number" class="form-control" id="price" name="campground[price]" value="<%=campground.price%>" required>
+      </div>
+      <div class="col">
+        <label for="images" class="form-label">Images</label>
+        <input class="form-control" type="file" id="images" name="campground[images]" multiple>
+      </div>
+    </div>
+    <p class="mb-3"><i>Fields marked with * are required.</i></p>
+    <button type="submit" class="btn btn-primary w-75 mx-auto mb-3">Submit</button>
+  </form>
+  <a class="w-75 mx-auto btn btn-danger mb-5" href="/campgrounds/<%=campground._id%>">Cancel</a>
+  </div>
+</div>

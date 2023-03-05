@@ -1,0 +1,30 @@
+<% layout('layouts/boilerplate')%>
+<h1 class="text-center mb-3">Campgrounds</h1>
+<div class="d-flex flex-row flex-wrap justify-content-evenly">
+  <% for (let campground of campgrounds) { %>
+    <div class="card mb-3" style="width: 18rem;">
+      <% if(campground.images != "") {%>
+          <img src="<%=campground.images[0].url%>" class="img-fluid rounded-start" alt="...">
+      <% } %>
+          <div class="card-body">
+            <h5 class="card-title text-center">
+              <%=campground.title%>
+            </h5>
+            <p class="card-text"><%=campground.description%></p>
+            <p class="card-text">
+              <small class="text-muted">
+                <span class="badge bg-secondary">
+                  <%=campground.location%>
+                </span>
+                <span class="badge bg-secondary">
+                  $<%=campground.price%>
+                </span>
+              </small>
+            </p>
+            <p class="card-text">
+              <a class="btn btn-success" href="/campgrounds/<%=campground._id%>">Visit</a>
+            </p>
+          </div>
+    </div>
+  <% } %>
+</div>
