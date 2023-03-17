@@ -1,30 +1,53 @@
 <% layout('layouts/boilerplate')%>
-<h1 class="text-center mb-3">Campgrounds</h1>
-<div class="d-flex flex-row flex-wrap justify-content-evenly">
-  <% for (let campground of campgrounds) { %>
-    <div class="card mb-3" style="width: 18rem;">
-      <% if(campground.images != "") {%>
-          <img src="<%=campground.images[0].url%>" class="img-fluid rounded-start" alt="...">
-      <% } %>
+  <h1 class="text-center mb-3">Campgrounds</h1>
+  <div class="row g-2">
+    <% for (let campground of campgrounds) { %>
+      <div class="col-12 col-md-6 col-xl-4">
+        <div class="card">
+          <div id="<%=campground._id%>" class="carousel slide">
+            <div class="carousel-inner">
+              <% for(let i=0; i < campground.images.length; i++) { %>
+                <div class="carousel-item <%= i===0 ? 'active' : ''%>">
+                  <img src="<%=campground.images[i].url%>" class="d-block w-100" alt="...">
+                </div>
+                <% } %>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#<%=campground._id%>"
+              data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#<%=campground._id%>"
+              data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
           <div class="card-body">
-            <h5 class="card-title text-center">
-              <%=campground.title%>
-            </h5>
-            <p class="card-text"><%=campground.description%></p>
+            <a class="text-decoration-none text-muted" href="/campgrounds/<%=campground._id%>">
+              <h5 class="card-title text-center">
+                <%=campground.title%>
+              </h5>
+            </a>
+            <p class="card-text">
+              <%=campground.description%>
+            </p>
             <p class="card-text">
               <small class="text-muted">
-                <span class="badge bg-secondary">
+                <span class="badge bg-primary">
                   <%=campground.location%>
                 </span>
-                <span class="badge bg-secondary">
+                <span class="badge bg-success">
                   $<%=campground.price%>
                 </span>
+                <span class="badge text-bg-info">
+                  Posted by @<%=campground.author.username%>
+                </span>
               </small>
-            </p>
-            <p class="card-text">
-              <a class="btn btn-success" href="/campgrounds/<%=campground._id%>">Visit</a>
+              <!-- <a class="btn btn-info btn-sm p-0 d-block mt-2" style="width: 100px;" href="/campgrounds/<%=campground._id%>">Visit</a> -->
             </p>
           </div>
-    </div>
-  <% } %>
-</div>
+        </div>
+      </div>
+      <% } %>
+  </div>

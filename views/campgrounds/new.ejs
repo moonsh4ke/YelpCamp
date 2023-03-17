@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-6 offset-3">
     <h1 class="my-5 text-center">New Campground</h1>
-    <form class="d-flex flex-column mt-3 needs-validation" id="form_newcamp" action="/campgrounds" method="POST" novalidate>
+    <form class="d-flex flex-column mt-3 needs-validation" id="form_newcamp" action="/campgrounds" method="POST" novalidate enctype="multipart/form-data">
       <div class="row mb-3">
         <div class="col">
           <label for="title" class="form-label">Campground Title*</label>
@@ -20,11 +20,11 @@
       <div class="row mb-3">
         <div class="col">
           <label for="price" class="form-label">Price*</label>
-          <input type="number" class="form-control" id="price" name="campground[price]" required>
+          <input type="number" class="form-control" id="price" name="campground[price]">
         </div>
         <div class="col">
           <label for="images" class="form-label">Images</label>
-          <input class="form-control" type="file" id="images" name="campground[images]" multiple>
+          <input class="form-control" type="file" id="images" name="images" multiple required>
         </div>
       </div>
       <p class="mb-3"><i>Fields marked with * are required.</i></p>
@@ -32,3 +32,9 @@
     </form>
   </div>
 </div>
+
+<script>
+  mapboxsearch.autofill({
+    accessToken: 'pk.eyJ1IjoibW9vbnNoYWtlIiwiYSI6ImNsZjdia2p2NzBweG00MnBvNDdjdjExOGMifQ.zGftlLqrI-tMibWD7x7Eig'
+  })
+</script>

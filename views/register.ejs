@@ -1,9 +1,26 @@
 <%layout('layouts/boilerplate')%>
-<h1>Register</h1>
-<form class="needs-validation" action="/users" method="POST" novalidate>
-  <label class="form-label" for="username">Username</label>
-  <input name="user[username]" id="username" class="form-control" type="text" required>
-  <label class="form-label" for="username">Password</label>
-  <input name="user[password]" id="username" class="form-control" type="password" required>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+<div class="row">
+  <div class="col-6 offset-3">
+    <h3 class="text-center mb-3">Register</h3>
+    <form class="needs-validation" action="/users" method="POST" novalidate>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">@</span>
+        <input name="user[username]" required type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+      <input placeholder="Password" name="user[password]" id="password" class="form-control mb-3" type="password" required>
+      <div class="mb-3">
+        <input placeholder="Email" name="user[email]" id="email" class="form-control" type="email" required>
+        <div class="invalid-feedback">
+          Invalid email!
+        </div>
+      </div>
+      <div class="form-check mb-3">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckDefault">
+          I accept all terms.
+        </label>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>

@@ -7,15 +7,15 @@ const morgan = require('morgan');
 const ejsMate = require('ejs-mate');
 const campgroundRouter = require('./routes/campgrounds');
 const rewviewRouter = require('./routes/reviews');
+const userRouter = require('./routes/user');
 const expressSession = require('express-session');
-const flash = require('connect-flash')
+const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const GoogleStrategy = require('passport-google-oidc');
 
-const bcrypt = require('bcrypt');
 const ExpressError = ('./utils/ExpressError');
 const User = require('./models/user');
-const {userSchema} = require('./schemas');
-const asyncWrapper = require('./utils/asyncWrapper');
-
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
   useNewUrlParser: true,
@@ -49,82 +49,43 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(methodOverride('_method'))
 app.use(express.urlencoded({extended: true}))
 app.use(morgan('tiny'));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use((req,res,next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.currentUser = req.user;
   next();
 })
 
-const validateUser = (req, res, next) => {
-  const {error} = userSchema.validate(req.body);
-  if (error) {
-    console.log("error validating user")
-    const msg = error.details.map(el => el.message).join(',');
-    throw new ExpressError(msg, 500);
-  }
-  return next()
-}
-
 app.use('/campgrounds', campgroundRouter);
 app.use('/campgrounds/:id/reviews', rewviewRouter);
-
-app.get('/register', (req, res) => {
-  res.render('register');
-})
-
-app.post('/users', validateUser, asyncWrapper(async (req, res) => {
-  const {username, password} = req.body.user
-  const hashedPw = await bcrypt.hash(password, 12);
-  const user = new User({username, "password": hashedPw});
-  await user.save()
-  req.flash('success', 'Successfully created user :D');
-  res.redirect('/');
-}))
-
-app.put('/users/:usr/edit', validateUser, asyncWrapper(async (req, res) => {
-}))
-
-app.delete('/users/:usr', asyncWrapper(async (req, res) => {
-}))
-
-app.get('/login', (req, res) => {
-  res.render('login');
-})
-
-app.post('/login', asyncWrapper(async (req, res) => {
-  const { username, password } = req.body.login;
-  const user = await User.findOne({"username": username});
-  if(user) {
-    const verified = await bcrypt.compare(password, user.password);
-    if(verified) {
-      req.flash("success", "Successfully logged in");
-      res.redirect("/");
-    } else {
-      req.flash("error", "Incorrect username or password");
-      res.redirect("/login");
-    }
-  } else {
-      req.flash("error", "Incorrect username or password");
-      res.redirect("/login");
-  }
-}));
+app.use('/users', userRouter);
 
 app.get('/', (req, res) => {
-  console.log("hello world!");
   res.render('home');
 });
 
-app.get('/test', async (req, res) => {
-  const campground = await Campground.find({title: "Sea Canyon"});
-  res.send(campground);
+app.get('/test', (req, res) => {
+  res.render('test');
 })
+
+// app.post('/test', upload.array("testfile"), (req, res) => {
+//   console.log(req.files);
+//   res.redirect('/test');
+// })
 
 app.use(function(req, res, next) {
   res.status(404).render('notFound');
 });
 
 app.use((error, req, res, next) => {
+  console.log(error);
   res.send(error.message);
 })
 

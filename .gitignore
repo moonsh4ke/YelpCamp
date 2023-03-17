@@ -2,3 +2,8 @@ bitacora.txt
 node_modules
 package-lock.json
 package.json
+.env
+todo.txt
+test.ejs
+test.js
+test.html
