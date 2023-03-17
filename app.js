@@ -13,11 +13,22 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const GoogleStrategy = require('passport-google-oidc');
+const MongoDBStore = require('connect-mongo');
 
 const ExpressError = ('./utils/ExpressError');
 const User = require('./models/user');
+require('dotenv').config();
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
+// const helmet = require('helmet');
+
+let dbUrl;
+if (process.env.PRODUCTION === 'true') {
+  dbUrl = process.env.MONGO_URL
+} else {
+  dbUrl = 'mongodb://localhost:27017/yelp-camp'
+}
+
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -29,14 +40,19 @@ db.once("open", () => {
 });
 
 const sessionConfig = {
-  secret: 'thisisnotagoodsecret',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
-  }
+  },
+  store: MongoDBStore.create({
+    mongoUrl: dbUrl,
+    secret: process.env.MONGO_STORE,
+    touchAfter: 24 * 3600
+  }),
 };
 
 app.engine('ejs', ejsMate);
@@ -45,6 +61,11 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(expressSession(sessionConfig));
 app.use(flash());
+// app.use(
+//   helmet({
+//     contentSecurityPolicy: false,
+//   })
+// );
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(methodOverride('_method'))
 app.use(express.urlencoded({extended: true}))
