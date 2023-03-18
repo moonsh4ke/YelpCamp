@@ -1,1 +1,38 @@
-<% layout('layouts/boilerplate')%>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YelpCamp</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/home.css">
+  </head>
+  <body class="vh-100 d-flex flex-column">
+    <%- include('./partials/navbar')%>
+    <div class="container mt-auto">
+      <div class="row ">
+        <div class="col-6 offset-3 d-flex flex-column align-items-center text-center">
+          <h1>YelpCamp</h1>
+          <p class="mb-3 w-50">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut obcaecati harum aperiam tenetur? Non aspernatur dolor ex beatae quae eius.
+          </p>
+          <% if (!currentUser) { %>
+          <a href="/campgrounds/" class="btn btn-lg btn-danger mb-3">
+            Visit Our Huge Collection of Campgrounds
+          </a>
+          <p class="body-text w-50 ">
+            Do you already have and account? then
+            <a class="btn btn-sm btn-primary" href="/users/login">LogIn</a>
+            or
+            <a class="btn btn-sm btn-primary" href="/users/register">Register</a>
+            and start reviewing and posting campgrounds
+          </p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+    <footer class="text-end mt-auto">
+        <span style="color: white">&copy; YelpCamp2023</span>
+    </footer>
+  </body>
+</html>
