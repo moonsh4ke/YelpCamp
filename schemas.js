@@ -57,8 +57,8 @@ module.exports.reviewSchema = Joi.object({
 
 module.exports.userSchema = Joi.object({
   user: Joi.object({
-    username: Joi.string().required().escapeHTML(),
-    password: Joi.string().required().escapeHTML(),
-    email: Joi.string().required().escapeHTML(),
+    username: Joi.string().required().escapeHTML().pattern(/[a-zA-z\d]{4,}/),
+    password: Joi.string().required().escapeHTML().pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),
+    email: Joi.string().required().escapeHTML().email(),
   }).required()
 })

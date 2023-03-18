@@ -1,13 +1,35 @@
 <%layout('layouts/boilerplate')%>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+<link rel="stylesheet" href="/css/hide_show_pw.css">
+
 <div class="row">
   <div class="col-6 offset-3">
     <h3 class="text-center mb-3">Register</h3>
     <form class="needs-validation" action="/users" method="POST" novalidate>
       <div class="input-group mb-3">
         <span class="input-group-text" id="basic-addon1">@</span>
-        <input name="user[username]" required type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+        <input name="user[username]" required type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" pattern="[a-zA-z\d]{4,}">
+        <div class="invalid-feedback">
+          Username must:
+          <ul>
+            <li>At leat be 4 characters wide</li>
+            <li>Contain only numbers and letters</li>
+          </ul>
+        </div>
       </div>
-      <input placeholder="Password" name="user[password]" id="password" class="form-control mb-3" type="password" required>
+      <div class="password-container mb-3">
+        <input placeholder="Password" name="user[password]" id="password" class="form-control" type="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$">
+        <i class="fa-solid fa-eye" id="eye"></i>
+        <div class="invalid-feedback">
+          Password must contain:
+          <ul>
+            <li>At minimun 8 characters</li>
+            <li>At least one uppercase letter</li>
+            <li>At least one number</li>
+          </ul>
+        </div>
+      </div>
       <div class="mb-3">
         <input placeholder="Email" name="user[email]" id="email" class="form-control" type="email" required>
         <div class="invalid-feedback">
@@ -24,3 +46,5 @@
     </form>
   </div>
 </div>
+
+<script src="/scripts/hide_show_pw.js"></script>
