@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate')%>
 <div class="container row mt-3">
-  <div class="col-6 offset-3 border d-flex flex-column">
+  <div class="col-lg-8 offset-lg-2 border d-flex flex-column">
   <h1 class="mb-3 text-center mb-5 mt-5">Edit Campground</h1>
   <form class="d-flex flex-column needs-validation" id="form_editcamp" action="/campgrounds/<%=campground._id%>?_method=PUT" method="POST" novalidate enctype="multipart/form-data">
     <div class="row mb-3">
@@ -27,14 +27,19 @@
         <input class="form-control" type="file" id="images" name="images" multiple>
       </div>
     </div>
-    <p class="mb-3"><i>Fields marked with * are required.</i></p>
-    <% campground.images.forEach((image, i) => { %>
-    <div class="img-container">
-      <img src="<%=image.url%>" alt="">
-      <label for="edit-img-<%=i%>">Delete?</label>
-      <input id="edit-img-<%=i%>" type="checkbox" name="deletedImg[]" value="<%=image.filename%>">
+    <p class="mb-1"><i>Fields marked with * are required.</i></p>
+    <hr>
+    <h5 class="mt-3 mb-3 text-muted">Check images to be deleted (optional)</h5>
+    <div class="container mb-3">
+      <div class="row">
+        <% campground.images.forEach((image, i) => { %>
+        <div class="col img-container">
+          <img class="img-thumbnail" style="width: 200px;" src="<%=image.url%>" alt="">
+          <input id="edit-img-<%=i%>" type="checkbox" name="deletedImg[]" value="<%=image.filename%>">
+        </div>
+        <% }) %>
+      </div>
     </div>
-    <% }) %>
     <button type="submit" class="btn btn-primary w-75 mx-auto mb-3">Submit</button>
     <a class="w-75 mx-auto btn btn-danger mb-5" href="/campgrounds/<%=campground._id%>">Cancel</a>
   </form>
