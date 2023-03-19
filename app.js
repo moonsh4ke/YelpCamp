@@ -102,7 +102,8 @@ app.use(function(req, res, next) {
 
 app.use((error, req, res, next) => {
   console.log(error);
-  res.send(error.message);
+  req.flash("error", error.message);
+  res.redirect('/');
 })
 
 const port = process.env.PORT || 3000;
