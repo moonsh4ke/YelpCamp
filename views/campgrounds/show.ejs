@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate')%>
 <div class="row">
-    <div class="col-xl-8 offset-xl-2">
+    <div class="col-lg-6 offset-lg-3">
       <div class="campground-card mb-3">
         <img src="<%=campground.images[0].url%>" class="card-img-top" alt="...">
         <div class="card-body">
@@ -20,7 +20,7 @@
           </form>
         </div>
         <% } %>
-        <div id='map' style="height: 300px"></div>
+        <div id='map' style="height: 300px;"></div>
       </div>
       <h3 class="mb-3">Comments</h3>
       <% if(currentUser
