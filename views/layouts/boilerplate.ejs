@@ -8,16 +8,6 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css' rel='stylesheet' />
     <script id="search-js" defer src="https://api.mapbox.com/search-js/v1.0.0-beta.14/web.js"></script>
-    <script>
-    const accessToken = 'pk.eyJ1IjoibW9vbnNoYWtlIiwiYSI6ImNsZjdia2p2NzBweG00MnBvNDdjdjExOGMifQ.zGftlLqrI-tMibWD7x7Eig';
-     
-    const script = document.getElementById('search-js');
-    script.onload = function() {
-    mapboxsearch.autofill({
-    accessToken
-    });
-    };
-    </script>
   </head>
   <body class="d-flex flex-column vh-100">
     <%- include('../partials/navbar')%>
